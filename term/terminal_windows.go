@@ -35,6 +35,7 @@ func IsTerminal(w io.Writer) bool {
 // IsConsole returns true if w writes to a Windows console.
 func IsConsole(w io.Writer) bool {
 	var handle syscall.Handle
+	// sys. //
 
 	if fw, ok := w.(fder); ok {
 		handle = syscall.Handle(fw.Fd())
@@ -74,7 +75,7 @@ func IsMSYSTerminal(w io.Writer) bool {
 	// MSYS2/Cygwin terminal's name looks like: \msys-dd50a72ab4668b33-pty2-to-master
 	data := make([]byte, 256)
 
-	r, _, e := syscall.Syscall6(
+	r, _, e := syscall.SyscallN(
 		procGetFileInformationByHandleEx.Addr(),
 		4,
 		uintptr(handle),
